@@ -12,6 +12,8 @@ module.exports = {
     "vue/component-tags-order": ["error", {
       "order": [ [ "script", "template" ], "style" ],
     }],
+    "vue/multi-word-component-names": "off",
+    "vue/no-v-model-argument": "off",
     "comma-dangle": ["error", {
       "arrays": "always-multiline",
       "objects": "always-multiline",
