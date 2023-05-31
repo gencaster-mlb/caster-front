@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import GraphDetail from "@/components/GraphDetail.vue";
 import DebugPlayer from "@/components/DebugPlayer.vue";
-import Graphs from "@/components/Graphs.vue";
+import Graphs from "@/components/GraphsOverview.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,23 +9,23 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: Graphs
+      component: Graphs,
     },
     {
       path: "/debug",
       name: "debug",
-      component: DebugPlayer
+      component: DebugPlayer,
     },
     {
-      path: "/listen/:graphName/",
+      path: "/listen/:graphSlug/",
       name: "graphPlayer",
       component: GraphDetail,
       props: route => ({
-        graphName: route.params.graphName,
-        fullView: false
-      })
-    }
-  ]
+        graphSlug: route.params.graphSlug,
+        fullView: false,
+      }),
+    },
+  ],
 });
 
 export default router;

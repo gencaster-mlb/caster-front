@@ -2,7 +2,7 @@
 import { type Ref, ref } from "vue";
 import { ElCollapse, ElCollapseItem } from "element-plus";
 import { useRouter } from "vue-router";
-import Player from "@/components/Player.vue";
+import Player from "@/components/PlayerComponent.vue";
 import type { Graph } from "@/graphql";
 import { useStreamSubscription } from "@/graphql";
 import StreamInfo from "@/components/StreamInfo.vue";
@@ -16,16 +16,19 @@ const router = useRouter();
 
 const { data, error, stale } = useStreamSubscription({
   variables: {
-    graphUuid: props.graph.uuid
+    graphUuid: props.graph.uuid,
   },
-  pause: router.currentRoute.value.name !== "graphPlayer"
+  pause: router.currentRoute.value.name !== "graphPlayer",
 });
 
 const playerRef: Ref<InstanceType<typeof Player> | undefined> = ref(undefined);
 </script>
 
 <template>
-  <div v-loading="stale" class="graph-player">
+  <div
+    v-loading="stale"
+    class="graph-player"
+  >
     <h2>{{ graph.name }}</h2>
     <div v-if="data?.streamInfo.__typename === 'StreamInfo'">
       <PlayerButtons />
@@ -34,7 +37,7 @@ const playerRef: Ref<InstanceType<typeof Player> | undefined> = ref(undefined);
         :stream-point="data.streamInfo.stream.streamPoint"
         :stream="data.streamInfo.stream"
       />
-      <ElCollapse style="margin-top: 10px;">
+      <ElCollapse class="debug-info-wrapper">
         <ElCollapseItem title="Debug info">
           <StreamInfo
             :stream="data.streamInfo.stream"
@@ -51,3 +54,12 @@ const playerRef: Ref<InstanceType<typeof Player> | undefined> = ref(undefined);
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+@import '@/assets/mixins.scss';
+@import '@/assets/variables.scss';
+
+.debug-info-wrapper {
+  margin-top: 10px;
+}
+</style>
